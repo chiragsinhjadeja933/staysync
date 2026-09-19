@@ -24,6 +24,7 @@ import {
   LogOut,
   MapPin
 } from 'lucide-react';
+import { getApiUrl } from '../../lib/api';
 
 export default function DashboardPage() {
   const { user, role, token, demoLogin } = useAuth();
@@ -32,7 +33,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  const apiUrl = getApiUrl();
 
   const loadDashboard = async () => {
     if (!token) return;

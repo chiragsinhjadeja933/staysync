@@ -76,9 +76,10 @@ describe('Real-Time Property Rental & Amenity Management API Tests', () => {
 
   // Test 5: Booking Lifecycle (Create -> Check-In -> Check-Out)
   it('POST /api/bookings - Creates valid booking, checks in, and checks out', async () => {
-    const today = new Date().toISOString().split('T')[0];
+    // Use an isolated test date in the future so UI interactions never collide
+    const testDate = new Date(Date.now() + 86400000 * 10).toISOString().split('T')[0];
 
-    // 1. Create unique non-conflicting booking (e.g. 07:00 - 08:00)
+    // 1. Create unique non-conflicting booking (e.g. 09:00 - 10:00)
     const createRes = await fetch(`${BASE_URL}/bookings`, {
       method: 'POST',
       headers: {
@@ -87,9 +88,9 @@ describe('Real-Time Property Rental & Amenity Management API Tests', () => {
       },
       body: JSON.stringify({
         amenity_id: 'c1111111-1111-1111-1111-111111111111',
-        booking_date: today,
-        start_time: '07:00',
-        end_time: '08:00'
+        booking_date: testDate,
+        start_time: '09:00',
+        end_time: '10:00'
       })
     });
 

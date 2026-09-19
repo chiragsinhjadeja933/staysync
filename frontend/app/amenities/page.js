@@ -22,6 +22,7 @@ import {
   Flame,
   Check
 } from 'lucide-react';
+import { getApiUrl } from '../../lib/api';
 
 export default function AmenitiesPage() {
   const { user, role, token } = useAuth();
@@ -55,7 +56,7 @@ export default function AmenitiesPage() {
     image_url: ''
   });
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  const apiUrl = getApiUrl();
 
   // 1. Fetch Amenities and Bookings
   const loadData = async () => {

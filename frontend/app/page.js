@@ -14,13 +14,14 @@ import {
   Sparkles,
   Layers
 } from 'lucide-react';
+import { getApiUrl } from '../lib/api';
 
 export default function HomePage() {
   const [apiStatus, setApiStatus] = useState({ loading: true, online: false, message: '' });
 
   useEffect(() => {
     async function checkBackend() {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+      const apiUrl = getApiUrl();
       try {
         const res = await fetch(`${apiUrl}/health`);
         if (res.ok) {

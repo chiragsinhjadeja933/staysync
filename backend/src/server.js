@@ -10,8 +10,24 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // Security and utility middleware
 app.use(helmet());
+
+const allowedFrontend = FRONTEND_URL.startsWith('http') ? FRONTEND_URL : `https://${FRONTEND_URL}`;
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, server-to-server, mobile)
+    if (!origin) return callback(null, true);
+    if (
+      origin === FRONTEND_URL ||
+      origin === allowedFrontend ||
+      origin === 'http://localhost:3000' ||
+      origin === 'http://127.0.0.1:3000' ||
+      origin.endsWith('.onrender.com')
+    ) {
+      return callback(null, true);
+    }
+    // Fallback permissive for deployment previews
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

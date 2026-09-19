@@ -21,6 +21,7 @@ import {
   Activity,
   Calendar
 } from 'lucide-react';
+import { getApiUrl } from '../../lib/api';
 
 export default function MaintenancePage() {
   const { user, role, token } = useAuth();
@@ -53,7 +54,7 @@ export default function MaintenancePage() {
   // Real-time flash notification state
   const [liveNotice, setLiveNotice] = useState(null);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  const apiUrl = getApiUrl();
 
   // 1. Initial Load of Maintenance Requests
   const loadRequests = async () => {

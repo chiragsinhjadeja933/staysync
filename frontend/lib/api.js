@@ -1,12 +1,24 @@
 import { supabase } from './supabaseClient';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+export function getApiUrl() {
+  let url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = `https://${url}`;
+  }
+  url = url.replace(/\/+$/, '');
+  if (!url.endsWith('/api')) {
+    url = `${url}/api`;
+  }
+  return url;
+}
+
+const API_BASE_URL = getApiUrl();
 
 /**
  * Universal API fetcher that automatically includes the Supabase session token
  */
 export async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const url = `${getApiUrl()}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   // Get current user session from Supabase
   let token = null;

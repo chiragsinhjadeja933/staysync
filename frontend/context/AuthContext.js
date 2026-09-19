@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { getApiUrl } from '../lib/api';
 
 const AuthContext = createContext(null);
 
@@ -101,7 +102,7 @@ export function AuthProvider({ children }) {
 
   // Login method
   const login = async (email, password) => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+    const apiUrl = getApiUrl();
     const res = await fetch(`${apiUrl}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -122,7 +123,7 @@ export function AuthProvider({ children }) {
 
   // Demo Login method (Instant 1-click for testing roles)
   const demoLogin = async (role) => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+    const apiUrl = getApiUrl();
     const res = await fetch(`${apiUrl}/auth/demo-login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -143,7 +144,7 @@ export function AuthProvider({ children }) {
 
   // Register method
   const register = async (formData) => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+    const apiUrl = getApiUrl();
     const res = await fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

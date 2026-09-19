@@ -21,6 +21,7 @@ import {
   CheckCircle2,
   AlertCircle
 } from 'lucide-react';
+import { getApiUrl } from '../../../lib/api';
 
 export default function PropertyDetailPage({ params }) {
   // Unwrap params in Next.js 15
@@ -53,7 +54,7 @@ export default function PropertyDetailPage({ params }) {
     tenant_email: ''
   });
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  const apiUrl = getApiUrl();
 
   const loadPropertyData = async () => {
     if (!token) return;

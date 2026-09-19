@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Calendar
 } from 'lucide-react';
+import { getApiUrl } from '../../lib/api';
 
 export default function PropertiesPage() {
   const { user, role, token } = useAuth();
@@ -43,7 +44,7 @@ export default function PropertiesPage() {
     image_url: ''
   });
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api';
+  const apiUrl = getApiUrl();
 
   // Load properties or tenant residence
   useEffect(() => {
