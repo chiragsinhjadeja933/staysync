@@ -112,6 +112,22 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📡 Healthcheck at http://localhost:${PORT}/api/health`);
   console.log(`====================================================`);
+
+  // Render Free-Tier Keep-Alive Pinger (Runs every 5 minutes)
+  const pingUrl = process.env.RENDER_EXTERNAL_URL || process.env.PING_URL;
+  if (pingUrl) {
+    const targetUrl = `${pingUrl.replace(/\/+$/, '')}/api/health`;
+    const FIVE_MINUTES = 5 * 60 * 1000;
+    setInterval(async () => {
+      try {
+        const response = await fetch(targetUrl);
+        console.log(`[Keep-Alive] 5-min ping to ${targetUrl} (Status: ${response.status})`);
+      } catch (err) {
+        console.warn(`[Keep-Alive] Ping warning: ${err.message}`);
+      }
+    }, FIVE_MINUTES);
+    console.log(`⏱️ Keep-alive checker active: Pinging ${targetUrl} every 5 minutes`);
+  }
 });
 
 module.exports = app;
